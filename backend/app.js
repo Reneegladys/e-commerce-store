@@ -1,12 +1,10 @@
-const express = require ('express');
-const app = express ();
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
 
 
-app.use (express.json());
+app.use(express.json()); 
+app.use(cors()); 
 
-// import all the routes
-const products = require ('./routes/productRoutes')
-
-app.use ('/api/', products)
-
-module.exports = app
+module.exports = app;
