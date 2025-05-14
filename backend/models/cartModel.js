@@ -1,15 +1,13 @@
 import mongoose from 'mongoose';
 
-const orderSchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
   userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   items: [
     {
       productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-      quantity: Number
+      quantity: { type: Number, default: 1 }
     }
-  ],
-  total: Number,
-  createdAt: { type: Date, default: Date.now }
+  ]
 });
 
-export default mongoose.model('Order', orderSchema);
+export default mongoose.model('Cart', cartSchema);

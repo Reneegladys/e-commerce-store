@@ -2,35 +2,28 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [error, setError] = useState('');
   const history = useHistory();
 
-  const handleRegister = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:5000/api/auth/register', { email, password, name });
-      history.push('/login');
+      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      localStorage.setItem('token', response.data.token);  // Spara token i localStorage
+      history.push('/profile');  // Om dirigeras till en profil-sida
     } catch (err) {
-      setError('Fel vid registrering. Försök igen.');
+      setError('Felaktig inloggning. Försök igen.');
     }
   };
 
   return (
     <div>
-      <h2>Registrera</h2>
-      <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Fullständigt namn"
-          required
-        />
+      <h2>Logga in</h2>
+      <form onSubmit={handleLogin}>
         <input
           type="email"
           value={email}
@@ -45,11 +38,11 @@ const Register = () => {
           placeholder="Lösenord"
           required
         />
-        <button type="submit">Registrera</button>
+        <button type="submit">Logga in</button>
       </form>
       {error && <p>{error}</p>}
     </div>
   );
 };
 
-export default Register;
+export default Login;
